@@ -22,14 +22,39 @@ def program
 	puts "CHEATS: #{cheats.keys}"
 
 	count_cheats_at_least_100(cheats)
+
+	program2(path)
+end 
+
+def program2(path)
+
+	super_cheats = 0
+
+	path.each_with_index do |p, i|
+		((i+1)..(path.length-1)).each do |i2|
+			distance = distance_between_points(p, path[i2])
+			if distance <= 20 && (i2 - i - distance) >= 100
+				super_cheats += 1
+			end
+		end
+	end
+
+	puts "SUPER CHEATS: #{super_cheats}"
+
+end
+
+def distance_between_points(p1, p2)
+	xdist = (p2[0] - p1[0]).abs
+	ydist = (p2[1] - p1[1]).abs
+
+	return xdist + ydist
 end
 
 def count_cheats_at_least_100(cheats)
 	count = 0
 
 	cheats.keys.each do |key|
-		if key.to_i >= 100
-			puts "GOOD ENOUGH: #{key}, COUNT: #{cheats[key].length}, CHEATS: #{cheats[key]}"
+		if key.to_i >= 102
 			count += cheats[key].length
 		end
 	end
@@ -90,6 +115,7 @@ def find_cheats(lines, path)
 				cheats[seconds_saved] << left_cheat
 			end
 		end
+
 	end
 
 	return cheats
